@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Music Folder Alarm — playback correction for Realme C30
 
 This patch changes only `MusicPlaybackService.kt` and adds a bundled backup alarm sound (`res/raw/music_alarm_fallback.wav`). All UI screens, saved alarms, history, schedules, and original `/home/justin/AndroidStudioProjects/MusicAlarm` are left untouched.
@@ -39,3 +40,7 @@ Open MusicFolderAlarm in Android Studio, choose RMX3581 (not emulator), click Ru
 ## Notes
 
 This is a source patch, not an APK. Not compiled on user's Android SDK/device in this environment. An unresponsive file provider, missing files, app force-stop, or OEM background restrictions can still prevent normal music playback or scheduled service launch. Do not rely on an unverified alarm as your only alarm.
+=======
+# MusicFolderAlarm
+Personal utility
+>>>>>>> origin/main
