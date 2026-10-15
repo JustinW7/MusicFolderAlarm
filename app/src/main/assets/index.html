@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101426">
+  <meta name="description" content="Music Folder Alarm V9 interactive UI preview">
+  <title>Music Folder Alarm · V9 Interactive UI</title>
+  <style>
+:root{color-scheme:dark;--navy:#101426;--surface:#1d2238;--surface-2:#242943;--surface-3:#2c3150;--purple:#aa91ff;--purple-bright:#c7b5ff;--text:#f7f5ff;--muted:#9da3bc;--line:rgba(195,193,235,.13);--green:#76dbb0;--amber:#ffce87;--red:#ff899b;--radius:20px;font-family:'DM Sans',system-ui,-apple-system,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#0b0e1b;color:var(--text)}body{display:flex;justify-content:center;align-items:center;min-height:100vh;overflow-x:hidden}button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.42}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--purple);outline-offset:3px}button{-webkit-tap-highlight-color:transparent}svg{display:block} .ambient{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}.ambient-one{width:520px;height:520px;background:rgba(110,77,210,.19);top:-220px;left:calc(50% - 500px)}.ambient-two{width:500px;height:500px;background:rgba(72,88,171,.16);bottom:-240px;right:calc(50% - 560px)}.desktop-caption{position:fixed;top:28px;left:36px;font-size:11px;font-weight:800;letter-spacing:2.4px;color:#9292b0;z-index:1;display:flex;align-items:center;gap:10px}.caption-dot{width:7px;height:7px;border-radius:50%;background:var(--purple)}.caption-separator{color:#5e6181}
+.app-shell{position:relative;z-index:1;width:min(100%,460px);height:min(890px,calc(100dvh - 48px));min-height:600px;background:var(--navy);border:1px solid rgba(193,188,238,.17);border-radius:31px;box-shadow:0 36px 120px rgba(0,0,0,.6),0 0 0 9px rgba(255,255,255,.018);display:flex;flex-direction:column;overflow:hidden}.app-header{flex:none;display:flex;align-items:center;gap:10px;padding:23px 21px 19px;background:linear-gradient(180deg,#15192f 0%,#101426 100%);border-bottom:1px solid var(--line)}.brand-mark{height:42px;width:42px;display:grid;place-items:center;flex:none;border-radius:14px;background:linear-gradient(145deg,#9e82fa,#624eb6);box-shadow:0 7px 20px rgba(145,109,255,.18);font-size:24px}.brand-copy{flex:1;min-width:0}.brand-eyebrow{font-size:8px;letter-spacing:1.6px;color:var(--muted);font-weight:800;margin-bottom:4px}.brand-name{font-family:'Outfit',sans-serif;font-size:17px;font-weight:500;white-space:nowrap;letter-spacing:-.4px}.brand-name strong{color:var(--purple-bright);font-weight:700}.header-actions{display:flex;gap:4px}.icon-button{border:0;background:transparent;color:#d9d7ec;display:grid;place-items:center;width:35px;height:35px;border-radius:11px;transition:.18s}.icon-button:hover{background:var(--surface-2);color:#fff}.icon-button svg{width:20px;height:20px}.app-content{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:25px 22px 30px;scrollbar-color:#484363 transparent;scrollbar-width:thin}.app-content::-webkit-scrollbar{width:5px}.app-content::-webkit-scrollbar-thumb{background:#494562;border-radius:10px}.bottom-nav{display:grid;grid-template-columns:repeat(3,1fr);padding:11px 16px max(12px,env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#191d32;flex:none}.nav-item{border:0;background:transparent;color:#868aa6;display:flex;align-items:center;flex-direction:column;gap:6px;padding:9px 4px 5px;border-radius:14px;font-size:11px;font-weight:700;letter-spacing:.1px}.nav-item svg{width:21px;height:21px}.nav-item.active{color:var(--purple-bright);background:rgba(170,145,255,.11)}
+.section-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:19px}.eyebrow{font-size:10px;color:var(--purple);letter-spacing:1.9px;font-weight:800;text-transform:uppercase;margin:0 0 8px}.section-title{font-family:'Outfit',sans-serif;font-size:29px;letter-spacing:-.8px;line-height:1.13;font-weight:700;margin:0}.section-description{font-size:12px;color:var(--muted);line-height:1.6;margin:9px 0 0}.text-link{border:0;background:transparent;color:var(--purple-bright);font-weight:700;font-size:12px;padding:6px}.primary-button{border:0;border-radius:14px;background:linear-gradient(110deg,#ae95ff,#9276ed);color:#18132e;font-weight:800;padding:13px 18px;display:inline-flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 24px rgba(160,126,255,.16);transition:transform .15s,filter .15s}.primary-button:hover{filter:brightness(1.09);transform:translateY(-1px)}.primary-button svg,.secondary-button svg{height:17px;width:17px}.secondary-button{border:1px solid var(--line);border-radius:13px;background:var(--surface-2);color:#e9e7f8;padding:11px 14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px}.secondary-button:hover{background:var(--surface-3)}.danger-button{border:1px solid rgba(255,137,155,.28);border-radius:12px;background:rgba(255,137,155,.09);color:var(--red);padding:11px 14px;font-weight:700}.wide{width:100%}.mini-action{border:1px solid var(--line);background:#252a43;color:#c9c9e4;border-radius:11px;padding:8px;display:grid;place-items:center}.mini-action:hover{background:#343954}.mini-action svg{width:16px;height:16px}.mini-action.danger:hover{color:var(--red)}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:19px 0 20px}.stat-card{background:linear-gradient(135deg,#252a46,#1b2037);border:1px solid var(--line);padding:16px 16px 14px;border-radius:17px;min-height:95px;position:relative;overflow:hidden}.stat-card:after{content:'';position:absolute;right:-20px;top:-25px;width:80px;height:80px;border-radius:50%;background:rgba(168,140,255,.08)}.stat-label{font-size:11px;color:var(--muted);margin-bottom:8px}.stat-value{font-family:'Outfit',sans-serif;font-size:26px;letter-spacing:-.8px;font-weight:700}.stat-value.small{font-size:17px;line-height:1.5}.stat-accent{color:var(--purple-bright)}.section-label{display:flex;justify-content:space-between;align-items:center;margin:21px 0 12px}.section-label h3{font-family:'Outfit',sans-serif;font-size:16px;margin:0;font-weight:600}.section-label span{font-size:11px;color:var(--muted)}.alarm-card{border:1px solid var(--line);background:linear-gradient(130deg,#222741,#1b2035);border-radius:19px;margin-bottom:12px;overflow:hidden;position:relative}.alarm-card.enabled{border-color:rgba(171,146,255,.31)}.alarm-card:before{content:'';position:absolute;top:0;bottom:0;left:0;width:3px;background:#515674}.alarm-card.enabled:before{background:var(--purple)}.alarm-card-main{padding:17px 16px 11px 19px;display:flex;gap:8px;align-items:flex-start}.alarm-card-copy{flex:1;min-width:0}.alarm-time{font-family:'Outfit',sans-serif;font-size:33px;font-weight:700;letter-spacing:-1.4px;line-height:1.15}.alarm-time .ampm{font-size:13px;font-weight:600;letter-spacing:0;color:var(--muted);margin-left:3px}.alarm-name{font-size:13px;font-weight:700;margin:7px 0 5px}.alarm-repeat{font-size:11px;color:var(--muted)}.alarm-card:not(.enabled) .alarm-time{color:#aaaac0}.toggle{position:relative;width:43px;height:25px;display:inline-block;flex:none}.toggle input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;z-index:1}.toggle-track{display:block;width:43px;height:25px;border-radius:25px;background:#444860;transition:background .2s}.toggle-track:after{content:'';position:absolute;left:3px;top:3px;width:19px;height:19px;background:#d5d5e6;border-radius:50%;transition:transform .2s}.toggle input:checked+.toggle-track{background:#9e82f5}.toggle input:checked+.toggle-track:after{transform:translateX(18px);background:#fff}.alarm-card-footer{display:flex;align-items:center;gap:7px;border-top:1px solid rgba(192,193,236,.08);padding:10px 13px 10px 18px}.tiny-chip{display:inline-flex;align-items:center;gap:5px;color:#b7b7d2;background:rgba(255,255,255,.035);border-radius:8px;padding:6px 8px;font-size:10px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tiny-chip svg{width:13px;height:13px;flex:none}.tiny-chip.accent{color:var(--purple-bright);background:rgba(170,145,255,.09)}.alarm-actions{margin-left:auto;display:flex;gap:5px}.alarm-actions .mini-action{padding:6px}.alarm-actions .mini-action svg{width:15px;height:15px}
+.empty-state{text-align:center;padding:30px 18px;border:1px dashed rgba(169,151,240,.23);border-radius:20px;background:rgba(36,41,67,.45)}.empty-graphic{height:65px;width:65px;border-radius:21px;background:linear-gradient(140deg,#34305c,#272642);display:grid;place-items:center;margin:0 auto 16px;color:var(--purple-bright)}.empty-graphic svg{width:30px;height:30px}.empty-state h3{font-family:'Outfit',sans-serif;font-size:18px;margin:0 0 6px}.empty-state p{color:var(--muted);font-size:12px;line-height:1.7;margin:0 0 18px}.hint-box{display:flex;gap:9px;align-items:flex-start;background:rgba(165,141,251,.075);border:1px solid rgba(165,141,251,.12);border-radius:13px;padding:12px;color:#bab6d7;font-size:11px;line-height:1.65;margin-top:18px}.hint-box svg{width:16px;height:16px;flex:none;color:var(--purple)}
+.segmented{display:flex;gap:3px;background:#20243b;padding:4px;border-radius:14px;margin:20px 0}.segment{flex:1;border:0;background:transparent;border-radius:10px;color:#989bb7;font-size:11px;font-weight:800;padding:11px 5px}.segment.active{color:#eeeaff;background:#39365e;box-shadow:0 2px 9px rgba(0,0,0,.15)}.album-hero{height:218px;border-radius:23px;position:relative;overflow:hidden;background:radial-gradient(circle at 70% 35%,rgba(225,187,255,.55),transparent 34%),radial-gradient(circle at 25% 80%,rgba(83,91,210,.65),transparent 47%),linear-gradient(135deg,#5b488c,#222442 80%);border:1px solid rgba(199,181,255,.15);display:grid;place-items:center}.album-hero:before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(145deg,transparent 0,transparent 19px,rgba(255,255,255,.025) 20px,transparent 21px)}.album-disc{width:158px;height:158px;border-radius:50%;background:repeating-radial-gradient(circle at center,#24203e 0,#24203e 2px,#393158 3px,#1a1b32 5px,#28243e 8px);border:4px solid rgba(213,198,255,.23);box-shadow:0 13px 45px rgba(8,9,27,.45),inset 0 0 15px rgba(0,0,0,.4);display:grid;place-items:center;position:relative}.album-disc:before{content:'';width:57px;height:57px;border-radius:50%;background:linear-gradient(130deg,#c6b3ff,#7563c1);box-shadow:0 0 0 6px #211e39;position:absolute}.album-disc:after{content:'';width:11px;height:11px;border-radius:50%;background:#1c1933;position:absolute}.album-hero.playing .album-disc{animation:spin 8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.album-corner{position:absolute;bottom:13px;left:16px;font-size:10px;letter-spacing:1.3px;color:#e0d5ff;font-weight:800}.album-corner.right{left:auto;right:15px;opacity:.75}.track-heading{margin:19px 0 2px;display:flex;align-items:center;gap:12px}.track-heading>div{flex:1;min-width:0}.track-title{font-family:'Outfit',sans-serif;font-size:23px;font-weight:700;letter-spacing:-.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.track-artist{color:var(--muted);font-size:12px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.track-heart{color:var(--purple);border:0;background:rgba(170,145,255,.1);padding:10px;border-radius:12px}.track-heart svg{width:18px;height:18px}.range{width:100%;accent-color:var(--purple);cursor:pointer;height:5px}.progress-wrap{margin-top:22px}.progress-times{display:flex;justify-content:space-between;color:#9ca0b9;font-size:10px;font-variant-numeric:tabular-nums;margin-top:6px}.player-controls{display:flex;align-items:center;justify-content:center;gap:21px;margin:16px 0 20px}.control{border:0;background:transparent;color:#d2d0e9;display:grid;place-items:center;width:39px;height:39px;border-radius:50%}.control svg{height:22px;width:22px}.control.active{color:var(--purple)}.control.play{height:62px;width:62px;background:linear-gradient(130deg,#b9a4ff,#9479e9);color:#17132b;box-shadow:0 8px 25px rgba(154,125,241,.27)}.control.play svg{height:25px;width:25px}.control:hover:not(.play){background:var(--surface-2)}.volume-row{display:flex;align-items:center;gap:11px;margin:4px 0 24px;color:var(--muted);font-size:11px}.volume-row svg{width:17px;height:17px}.volume-row input{flex:1}.queue-card{background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:14px}.queue-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.queue-header strong{font-size:13px}.queue-header span{font-size:11px;color:var(--muted)}.song-row{display:flex;gap:10px;align-items:center;padding:10px 4px;border-bottom:1px solid rgba(191,187,230,.07)}.song-row:last-child{border:0}.song-row .song-icon{height:37px;width:37px;flex:none;display:grid;place-items:center;background:#353052;color:#c7b5ff;border-radius:11px}.song-row .song-icon svg{width:18px;height:18px}.song-row .song-copy{flex:1;min-width:0}.song-row .song-copy strong{display:block;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.song-row .song-copy span{display:block;font-size:10px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.song-row .song-duration{color:var(--muted);font-size:10px}.song-row .song-play{border:0;background:transparent;color:var(--purple);padding:7px}.song-row .song-play svg{width:17px;height:17px}.song-row.active .song-copy strong{color:var(--purple-bright)}.folder-card{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:10px}.folder-art{height:48px;width:48px;flex:none;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#5c4d96,#302e58);color:#e1d7ff}.folder-art svg{width:24px;height:24px}.folder-copy{flex:1;min-width:0}.folder-copy strong{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.folder-copy span{display:block;font-size:10px;color:var(--muted);margin-top:5px}.folder-actions{display:flex;gap:6px}.tag{font-size:9px;padding:4px 6px;border-radius:6px;background:rgba(170,145,255,.14);color:var(--purple-bright);font-weight:800;letter-spacing:.2px}
+.history-filter{display:flex;gap:7px;margin:19px 0}.filter-pill{background:#24283e;color:#a6a7bf;border:1px solid var(--line);border-radius:100px;padding:8px 14px;font-size:11px;font-weight:700}.filter-pill.active{color:#1e1735;background:var(--purple);border-color:var(--purple)}.history-item{display:flex;gap:11px;padding:15px 0;border-bottom:1px solid var(--line)}.history-icon{height:37px;width:37px;flex:none;border-radius:12px;display:grid;place-items:center;background:rgba(118,219,176,.11);color:var(--green)}.history-icon.warn{background:rgba(255,206,135,.11);color:var(--amber)}.history-icon.error{background:rgba(255,137,155,.11);color:var(--red)}.history-icon svg{width:18px;height:18px}.history-body{flex:1;min-width:0}.history-body strong{font-size:12px;display:block;line-height:1.5}.history-body p{font-size:11px;color:var(--muted);margin:5px 0;line-height:1.6;overflow-wrap:anywhere}.history-time{font-size:10px;color:#8488a5;white-space:nowrap}.history-meta{font-size:10px;color:#797f9e;margin-top:5px}
+.overlay{position:fixed;inset:0;z-index:10;background:rgba(6,7,18,.75);backdrop-filter:blur(7px);display:flex;align-items:center;justify-content:center;padding:16px}.modal{width:min(100%,435px);max-height:min(90dvh,820px);display:flex;flex-direction:column;background:#1c2036;border:1px solid rgba(187,171,245,.23);border-radius:24px;box-shadow:0 25px 100px rgba(0,0,0,.55);overflow:hidden}.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 21px 16px;border-bottom:1px solid var(--line);flex:none}.modal-head h2{font-family:'Outfit',sans-serif;font-size:22px;margin:0}.modal-body{padding:20px 21px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#555074 transparent}.modal-footer{display:flex;gap:10px;padding:15px 21px 20px;border-top:1px solid var(--line);flex:none}.modal-footer button{flex:1}.field{display:block;margin-bottom:16px}.field-label{display:block;font-size:11px;color:#c7c6de;font-weight:800;margin-bottom:8px}.text-input,.select-input{background:#282d47;border:1px solid rgba(196,190,235,.19);color:#f5f3ff;border-radius:12px;padding:12px 13px;width:100%;outline:0;font-size:13px;min-width:0}.text-input:focus,.select-input:focus{border-color:var(--purple)}.text-input::placeholder{color:#767b98}.select-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%23b9b1df' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:33px}.select-input option{background:#252a43}.time-grid{display:grid;grid-template-columns:1fr 1fr 95px;gap:9px}.subhead{font-size:12px;font-weight:800;margin:18px 0 11px}.chip-row{display:flex;gap:7px;flex-wrap:wrap}.choice-chip{border:1px solid rgba(190,180,236,.19);background:#282c46;color:#b5b5ce;padding:9px 11px;border-radius:10px;font-size:11px;font-weight:700}.choice-chip.active{background:rgba(170,145,255,.19);color:#dacdff;border-color:rgba(170,145,255,.52)}.day-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-top:10px}.day-chip{min-width:0;padding:10px 0;border:1px solid rgba(190,180,236,.2);border-radius:9px;background:#292d46;color:#a9acc8;font-size:10px;font-weight:800}.day-chip.active{background:var(--purple);color:#211b39;border-color:var(--purple)}.folder-picker-row{display:flex;gap:8px}.folder-picker-row select{flex:1}.folder-picker-row button{flex:none}.inline-help{color:var(--muted);font-size:10px;line-height:1.6;margin:8px 0 0}.form-error{color:var(--red);font-size:11px;line-height:1.5;margin-top:10px;min-height:15px}.setting-row{display:flex;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid var(--line)}.setting-row>div:first-child{flex:1}.setting-row strong{display:block;font-size:12px}.setting-row p{color:var(--muted);font-size:11px;line-height:1.5;margin:5px 0 0}.setting-section{font-size:10px;color:var(--purple);font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin:6px 0 8px}.search-results{max-height:55vh;overflow-y:auto}.search-input-wrap{display:flex;align-items:center;gap:10px;background:#292d47;border:1px solid var(--line);padding:0 12px;border-radius:13px;margin-bottom:13px}.search-input-wrap svg{width:18px;height:18px;color:var(--muted)}.search-input-wrap input{background:transparent;border:0;outline:0;color:var(--text);padding:13px 0;width:100%;font-size:13px}.search-item{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:11px 5px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--text)}.search-item svg{width:18px;height:18px;color:var(--purple)}.search-item div{flex:1;min-width:0}.search-item strong{font-size:12px;display:block}.search-item span{font-size:10px;color:var(--muted);display:block;margin-top:4px}.toast-stack{position:fixed;z-index:20;bottom:25px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;width:min(90%,420px);pointer-events:none}.toast{background:#343553;color:#f6f3ff;border:1px solid rgba(193,184,255,.29);box-shadow:0 12px 36px rgba(0,0,0,.4);border-radius:12px;padding:12px 15px;font-size:12px;line-height:1.5;max-width:100%;animation:pop .2s ease}@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}.spacer{flex:1}.muted{color:var(--muted)}.row-between{display:flex;align-items:center;justify-content:space-between;gap:10px}.small-note{font-size:10px;color:var(--muted);line-height:1.6}.separator{height:1px;background:var(--line);margin:17px 0}
+@media(max-width:600px){body{align-items:stretch}.desktop-caption,.ambient{display:none}.app-shell{width:100%;height:100dvh;min-height:0;border:0;border-radius:0;box-shadow:none}.app-header{padding:calc(17px + env(safe-area-inset-top)) 18px 15px}.app-content{padding:22px 18px 30px}.bottom-nav{padding-bottom:max(12px,env(safe-area-inset-bottom))}.overlay{padding:8px}.modal{max-height:94dvh;border-radius:22px}.modal-body{padding:17px}.modal-head{padding:17px}.modal-footer{padding:13px 17px 17px}}
+@media(max-width:370px){.brand-name{font-size:15px}.brand-mark{height:37px;width:37px}.app-content{padding-left:14px;padding-right:14px}.alarm-card-footer{flex-wrap:wrap}.time-grid{grid-template-columns:1fr 1fr 80px}.choice-chip{padding:8px 9px}.day-grid{gap:3px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+
+.section-title{font-size:22px;letter-spacing:-.35px}.alarm-card-main{cursor:pointer}.alarm-card-main:hover{background:rgba(170,145,255,.06)}.volume-limits{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.volume-limits input{width:100%}.issue-detail{white-space:pre-wrap;overflow-wrap:anywhere}
+/* Requested compact tab headings: no inherited top/bottom title gap. */
+.app-content.compact-heading-view{padding-top:3px}
+.compact-heading-view>.section-top{margin-top:0;margin-bottom:0;align-items:center}
+.compact-heading-view>.section-top .section-title{margin:0;line-height:1.15}
+.compact-heading-view>.section-top+.primary-button{margin-top:7px}
+.compact-heading-view>.section-top+.segmented{margin-top:9px}
+.compact-heading-view>.section-top+.stat-row{margin-top:9px}
+.alarm-card[data-action="preview-alarm"]{cursor:pointer}
+.alarm-card[data-action="preview-alarm"]:hover{border-color:rgba(171,146,255,.5)}
+.alarm-card[data-action="preview-alarm"]:focus-visible{outline:2px solid var(--purple);outline-offset:3px}
+.queue-header .queue-heading{display:flex;align-items:center;gap:7px;min-width:0}
+.queue-header .queue-heading strong{display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.queue-header .queue-heading span{white-space:nowrap;font-size:10px}
+.queue-shuffle{padding:7px 10px;font-size:11px;flex-shrink:0}
+.queue-shuffle.active{border-color:var(--purple);background:rgba(170,145,255,.2);color:var(--purple-bright)}
+.history-body p{white-space:pre-wrap;overflow:visible;text-overflow:clip;display:block}
+
+/* V6 compact toolbar and now-playing updates */
+.app-header{padding:11px 18px 10px;gap:9px}
+.brand-mark{width:36px;height:36px;border-radius:11px;font-size:21px}
+.brand-name{font-size:16px}
+.brand-copy{display:flex;align-items:center}
+.app-content.compact-heading-view{padding-top:2px}
+.compact-heading-view>.section-top{margin:0 0 2px;min-height:0}
+.compact-heading-view>.section-top .section-title{font-size:22px;line-height:1.1}
+.compact-heading-view>.section-top+.primary-button{margin-top:7px}
+.compact-heading-view>.section-top+.segmented{margin-top:8px}
+.compact-heading-view>.section-top+.stat-row{margin-top:10px}
+.album-hero{height:138px;border-radius:17px}
+.album-disc{width:98px;height:98px;border-width:3px}
+.album-disc:before{width:35px;height:35px;box-shadow:0 0 0 4px #211e39}
+.album-disc:after{width:8px;height:8px}
+.album-corner{bottom:9px;left:12px;font-size:9px}
+.album-corner.right{right:12px}
+.queue-card .now-search{margin:8px 0 5px}
+.queue-header{gap:8px;margin-bottom:8px}
+.queue-heading{min-width:0}
+.queue-heading strong{display:flex;align-items:center;gap:6px;overflow-wrap:anywhere}
+@media(max-width:600px){.app-header{padding:calc(10px + env(safe-area-inset-top)) 16px 9px}.app-content.compact-heading-view{padding-top:2px}}
+  /* V7 requested changes: readable player sections, compact master switch, rich media banner */
+  .segmented{background:#171d33;border:1px solid rgba(186,187,231,.16);padding:5px;gap:5px}
+  .segment{font-size:12px;color:#c0c4dc;transition:background .18s,color .18s}
+  .segment[data-id="now"].active{color:#1a1433;background:#c0acff;box-shadow:0 4px 15px rgba(165,136,255,.26)}
+  .segment[data-id="folders"].active{color:#0e2c32;background:#7ad8cf;box-shadow:0 4px 15px rgba(108,213,204,.18)}
+  .segment[data-id="recent"].active{color:#182644;background:#a1c5ff;box-shadow:0 4px 15px rgba(128,173,254,.2)}
+  .player-pane{border:1px solid rgba(187,196,255,.12);border-radius:19px;padding:12px 12px 16px}
+  .player-pane-now{background:linear-gradient(160deg,rgba(97,77,157,.20),rgba(33,37,62,.52) 52%,rgba(23,29,47,.45))}
+  .player-pane-folders{background:linear-gradient(160deg,rgba(58,132,133,.19),rgba(32,40,58,.54) 52%,rgba(21,31,43,.5))}
+  .player-pane-recent{background:linear-gradient(160deg,rgba(57,106,165,.20),rgba(31,39,64,.55) 52%,rgba(23,31,49,.5))}
+  .volume-stepper{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 17px;padding:8px 11px;background:#20243c;border:1px solid rgba(195,193,235,.18);border-radius:15px}
+  .volume-stepper-label{color:#dad7f1;font-weight:700;font-size:12px}
+  .volume-stepper-controls{display:flex;gap:7px;align-items:center}
+  .stepper-btn{width:37px;height:34px;border-radius:10px;border:1px solid rgba(194,176,255,.28);background:#373252;color:#dbcfff;display:grid;place-items:center}
+  .stepper-btn:hover{background:#544776}
+  .stepper-level{font-family:'Outfit',sans-serif;text-align:center;min-width:65px;font-size:17px;font-weight:700;white-space:nowrap;color:#fff}
+  .stepper-level small{font-size:10px;color:#b4b3cd;font-weight:500}
+  .master-alarm-row{margin-top:17px;gap:8px}
+  .master-alarm-row h3{flex:1;font-size:15px}
+  .master-switch{display:flex;align-items:center;gap:6px}
+  .master-switch .toggle{width:40px;transform:scale(.9);transform-origin:left center}
+  .master-status{font-size:10px;font-weight:750;color:var(--purple-bright);white-space:nowrap}
+  .alarm-edit-large{font-size:13px;padding:9px 15px;min-width:88px;background:#403966;border-color:rgba(177,151,255,.35)}
+  .alarm-edit-large svg{width:17px;height:17px}
+  .folder-play{width:41px;height:41px;border-radius:12px;background:#b0f1e5;color:#17383a;display:grid;place-items:center;border:0}
+  .folder-play:hover{background:#d0fff5}
+  @media(max-width:375px){.master-alarm-row h3{font-size:12px}.master-status{font-size:9px}.player-pane{padding:10px 8px}.volume-stepper-label{font-size:11px}.stepper-level{min-width:53px}}
+  /* V9: external Android media notifications only; never display an app-owned banner. */
+  .volume-label-stack{display:flex;flex-direction:column;gap:4px}
+  .volume-extents{font-size:10px;color:#a8abc8;font-weight:600;white-space:nowrap}
+  .app-permissions-button{flex:none;font-size:11px;padding:10px 11px;gap:6px;white-space:nowrap}
+  .permissions-intro{display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;padding:4px 5px 17px}
+  .permissions-intro>svg{color:var(--purple-bright)}
+  .permissions-intro strong{font-size:16px}
+  .permissions-intro p{margin:0;color:var(--muted);font-size:11px;line-height:1.65}
+  .permission-line{display:flex;align-items:center;gap:13px;border-top:1px solid var(--line);padding:15px 3px}
+  .permission-line>svg{color:var(--purple-bright);flex:none}
+  .permission-line>div{flex:1;min-width:0}
+  .permission-line strong,.permission-line span{display:block}
+  .permission-line strong{font-size:12px}
+  .permission-line span{font-size:10px;color:var(--muted);margin-top:3px}
+  @media(max-width:370px){.volume-extents{font-size:9px}.app-permissions-button{font-size:10px;padding:9px 8px}}
+  </style>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="desktop-caption" aria-hidden="true"><span class="caption-dot"></span> MUSIC FOLDER ALARM <span class="caption-separator">/</span> INTERACTIVE PREVIEW</div>
+  <div class="app-shell" id="appShell">
+    <header class="app-header">
+      <div class="brand-mark" aria-hidden="true"><span>♫</span></div>
+      <div class="brand-copy"><div class="brand-name">Music Folder <strong>Alarm</strong></div></div>
+      <div class="header-actions">
+        <button class="icon-button" id="searchButton" aria-label="Search" title="Search"></button>
+        <button class="icon-button" id="settingsButton" aria-label="Settings" title="Settings"></button>
+      </div>
+    </header>
+    <div class="app-content" id="appMain" tabindex="-1"></div>
+    <nav class="bottom-nav" id="bottomNav" aria-label="Main navigation"></nav>
+  </div>
+  <div id="overlayRoot"></div>
+  <div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
+  <input type="file" id="folderInput" webkitdirectory directory multiple accept="audio/*,.mp3,.m4a,.wav,.ogg,.flac,.aac,.opus" hidden>
+  <script>
+/* Music Folder Alarm — interactive browser prototype (V9).
+   Everything runs locally; no backend, account, or third-party JS required. */
+(() => {
+  'use strict';
+
+  const STORAGE_KEY = 'music-folder-alarm-web-v1';
+  const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const EVERY = [0,1,2,3,4,5,6];
+  const WEEKDAYS = [1,2,3,4,5];
+  const WEEKENDS = [0,6];
+  const ICONS = {
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>',
+    settings:'<path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06-1.91 1.91-.06-.06A1.65 1.65 0 0 0 16 18.4a1.65 1.65 0 0 0-1 1.5V20h-2.7v-.1a1.65 1.65 0 0 0-1-1.5 1.65 1.65 0 0 0-1.82.33l-.06.06-1.91-1.91.06-.06A1.65 1.65 0 0 0 7.9 15a1.65 1.65 0 0 0-1.5-1H6.3v-2.7h.1a1.65 1.65 0 0 0 1.5-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06L9.42 6.5l.06.06A1.65 1.65 0 0 0 11.3 6.9a1.65 1.65 0 0 0 1-1.5V5.3H15v.1a1.65 1.65 0 0 0 1 1.5 1.65 1.65 0 0 0 1.82-.33l.06-.06 1.91 1.91-.06.06A1.65 1.65 0 0 0 19.4 10.3a1.65 1.65 0 0 0 1.5 1h.1V14h-.1a1.65 1.65 0 0 0-1.5 1Z" transform="translate(-1.65 -1.65)"/>',
+    alarm:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5M5 3 2 6m17-3 3 3M6 21l1.5-2m10.5 2-1.5-2"/>',
+    music:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+    history:'<path d="M3 12a9 9 0 1 0 2.5-6.2L3 8"/><path d="M3 3v5h5m4-1v5l3 2"/>',
+    plus:'<path d="M12 5v14M5 12h14"/>',
+    minus:'<path d="M5 12h14"/>',
+    folder:'<path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10H3z"/>',
+    shuffle:'<path d="m18 14 4 4-4 4M18 2l4 4-4 4M2 18h3c5 0 7-12 12-12h5M2 6h3c2.5 0 4.3 2.5 6 5m3 2c1.2 2.6 2.4 5 5 5h3"/>',
+    play:'<path d="m8 5 12 7-12 7z"/>',
+    pause:'<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>',
+    previous:'<path d="M6 5v14m13-14L8 12l11 7z"/>',
+    next:'<path d="M18 5v14M5 5l11 7-11 7z"/>',
+    edit:'<path d="M12 20h9M4 16.5V20h3.5L19 8.5 15.5 5 4 16.5zM14.5 6l3.5 3.5"/>',
+    trash:'<path d="M3 6h18m-2 0-1 15H6L5 6m3 0V4h8v2M10 10v7m4-7v7"/>',
+    close:'<path d="M18 6 6 18M6 6l12 12"/>',
+    volume:'<path d="M11 5 6 9H3v6h3l5 4zM15 9a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"/>',
+    info:'<circle cx="12" cy="12" r="10"/><path d="M12 11v6m0-10h.01"/>',
+    check:'<path d="m4 12 5 5L20 6"/>',
+    warning:'<path d="m10.3 3.6-8.1 14A2 2 0 0 0 4 20.6h16a2 2 0 0 0 1.8-3l-8.1-14a2 2 0 0 0-3.4 0ZM12 9v4m0 4h.01"/>',
+    calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',
+    upload:'<path d="M12 16V3m-5 5 5-5 5 5M4 17v4h16v-4"/>',
+    bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9m-8 12h4"/>',
+    rotate:'<path d="M3 12a9 9 0 1 1 3 6.7M3 19v-5h5"/>',
+    repeat:'<path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/>',
+    headphones:'<path d="M3 14v-3a9 9 0 0 1 18 0v3M3 14h4v7H5a2 2 0 0 1-2-2zm18 0h-4v7h2a2 2 0 0 0 2-2z"/>',
+    chevron:'<path d="m9 18 6-6-6-6"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    spark:'<path d="m12 3 1.9 6.1L20 11l-6.1 1.9L12 19l-1.9-6.1L4 11l6.1-1.9zM19 18l.6 1.4L21 20l-1.4.6L19 22l-.6-1.4L17 20l1.4-.6z"/>'
+  };
+  const icon = (name, size=20) => `<svg aria-hidden="true" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICONS[name] || ICONS.info}</svg>`;
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  const uid = () => typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const defaultState = () => ({alarms:[],folders:[],history:[],recent:[],selectedFolderId:'',lastFired:{},startHistory:{},alarmsMasterEnabled:true,masterAlarmDefaultV8Applied:true,settings:{volume:75,defaultShuffle:true,lowBatteryVoice:false}});
+  function loadState(){
+    try {
+      const parsed=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
+      if(!parsed||typeof parsed!=='object')return defaultState();
+      const defaults=defaultState();
+      const folders=Array.isArray(parsed.folders)?parsed.folders.filter(f=>f&&f.id!=='demo'):[];
+      const seen=new Set();
+      const dedupedFolders=folders.filter(f=>{const key=String(f.id||f.name).toLowerCase();if(seen.has(key))return false;seen.add(key);return true;});
+      const alarms=(Array.isArray(parsed.alarms)?parsed.alarms:[]).filter(a=>a&&a.id!=='sample-morning-alarm').map(a=>({...a,folderId:a.folderId==='demo'?'':a.folderId,volumeVariable:a.volumeVariable!==false,volumeMin:Number.isFinite(Number(a.volumeMin))&&Number(a.volumeMin)>=10?Number(a.volumeMin):10,volumeMax:Math.min(16,Math.max(10,Number(a.volumeMax)||16))}));
+      return {...defaults,...parsed,alarms,folders:dedupedFolders,selectedFolderId:parsed.selectedFolderId==='demo'?'':(parsed.selectedFolderId||''),alarmsMasterEnabled:parsed.masterAlarmDefaultV8Applied===true ? parsed.alarmsMasterEnabled!==false : true,masterAlarmDefaultV8Applied:true,history:Array.isArray(parsed.history)?parsed.history.filter((h,i,all)=>h.type==='success'||all.slice(0,i+1).filter(x=>x.type!=='success').length<=20):[],recent:Array.isArray(parsed.recent)?parsed.recent:[],settings:{...defaults.settings,...parsed.settings}};
+    }catch{return defaultState();}
+  }
+  let state = loadState();
+  const save = () => { try { const snapshot=JSON.stringify(state);localStorage.setItem(STORAGE_KEY,snapshot);if(window.AndroidAlarm)window.AndroidAlarm.syncAlarms(snapshot); } catch { toast('Storage is full or unavailable. Changes may not persist.'); } };
+  let folderSearch = '', nowTrackSearch = '', folderTrackLimit=80;
+  let tab = 'alarms', playerTab = 'now', historyFilter = 'all', searchTerm = '', editor = null, pickerIntent = 'player';
+  let runtimeFolders = new Map();
+  let currentTrack = null, currentQueue = [], queueIndex = -1, manualShuffle = false, isPlaying = false;
+  let repeatOne = false, lastFolderShuffleId = null, previewAlarm = null;
+  let alarmPlayback = null, playbackToken = 0, activeVolumeRule = null;
+  let batteryMonitor = null;
+  let nativePosition=0,nativeDuration=0,nativeLastTrack='';
+  const audio = new Audio();
+  audio.preload = 'metadata';
+  audio.volume = Math.max(1/16,Math.min(1,state.settings.volume/100));
+  const appMain = document.getElementById('appMain');
+  const nav = document.getElementById('bottomNav');
+  const overlayRoot = document.getElementById('overlayRoot');
+  const folderInput = document.getElementById('folderInput');
+
+  function toast(message){
+    const container = document.getElementById('toastStack');
+    const element = document.createElement('div'); element.className='toast';element.textContent=message;
+    container.appendChild(element); setTimeout(()=>element.remove(),4200);
+  }
+  function logHistory(type,title,detail='',alarmId=null){
+    state.history.unshift({id:uid(),type,title,detail,alarmId,at:new Date().toISOString()});
+    state.history=state.history.filter((h,i)=>h.type==='success'||state.history.slice(0,i+1).filter(x=>x.type!=='success').length<=20);save();
+    if(tab==='history')renderMain(false);
+  }
+  function fmtTime(hour,minute){let h=hour%12||12;return {time:`${h}:${String(minute).padStart(2,'0')}`,ampm:hour<12?'AM':'PM'};}
+  function fmtDuration(seconds){if(!Number.isFinite(seconds))return '0:00';return `${Math.floor(seconds/60)}:${String(Math.floor(seconds%60)).padStart(2,'0')}`;}
+  function repeatText(alarm){
+    if(alarm.once)return 'One time';
+    const days=Array.isArray(alarm.days)?alarm.days:EVERY;
+    if(days.length===7)return 'Every day';
+    if(days.length===5 && WEEKDAYS.every(d=>days.includes(d)))return 'Weekdays';
+    if(days.length===2 && WEEKENDS.every(d=>days.includes(d)))return 'Weekends';
+    return DAYS.filter((_,index)=>days.includes(index)).join(' · ')||'No days';
+  }
+  function nextOccurrence(alarm,from=new Date()){
+    for(let i=0;i<=7;i++){
+      const candidate=new Date(from);candidate.setHours(alarm.hour,alarm.minute,0,0);candidate.setDate(from.getDate()+i);
+      if(candidate<=from)continue;
+      if(alarm.once || (alarm.days||EVERY).includes(candidate.getDay()))return candidate;
+    }
+    return null;
+  }
+  function nextAlarm(){
+    if(!state.alarmsMasterEnabled)return null;
+    return state.alarms.filter(a=>a.enabled).map(a=>({alarm:a,date:nextOccurrence(a)})).filter(x=>x.date).sort((a,b)=>a.date-b.date)[0];
+  }
+  function dateLabel(date){
+    const today=new Date(); const tomorrow=new Date(today);tomorrow.setDate(today.getDate()+1);
+    const day=date.toDateString()===today.toDateString()?'Today':date.toDateString()===tomorrow.toDateString()?'Tomorrow':date.toLocaleDateString(undefined,{weekday:'short'});
+    const f=fmtTime(date.getHours(),date.getMinutes());return `${day}, ${f.time} ${f.ampm}`;
+  }
+  function getFolders(){return state.folders;}
+  function getFolder(id){return getFolders().find(folder=>folder.id===id);}
+  function getTracks(id){return runtimeFolders.get(id)||[];}
+  function allTracks(){return getFolders().flatMap(folder=>getTracks(folder.id).map(track=>({...track,folderId:folder.id,folderName:folder.name})));}
+  function trackById(id){return allTracks().find(track=>track.id===id);}
+  function folderOptions(selected){return getFolders().map(f=>`<option value="${esc(f.id)}" ${selected===f.id?'selected':''}>${esc(f.name)}</option>`).join('');}
+  function renderNav(){
+    nav.innerHTML=[['alarms','alarm','Alarms'],['player','music','Player'],['history','history','History']].map(([id,ic,title])=>`<button type="button" class="nav-item ${tab===id?'active':''}" data-action="tab" data-id="${id}" aria-current="${tab===id?'page':'false'}">${icon(ic)}<span>${title}</span></button>`).join('');
+  }
+  function renderMain(resetScroll=true){
+    const previous=appMain.scrollTop;
+    appMain.classList.add('compact-heading-view');
+    appMain.innerHTML=tab==='alarms'?renderAlarms():tab==='player'?renderPlayer():renderHistory();
+    appMain.scrollTop=resetScroll?0:previous;
+    renderNav();
+  }
+  function navigate(target){tab=target;renderMain();}
+  function renderAlarms(){
+    const active=state.alarmsMasterEnabled?state.alarms.filter(a=>a.enabled).length:0;
+    const next=nextAlarm();
+    const sorted=[...state.alarms].sort((a,b)=>(Number(b.enabled)-Number(a.enabled)) || (a.hour*60+a.minute)-(b.hour*60+b.minute));
+    return `<div class="section-top"><div><h1 class="section-title">Your Alarms</h1></div></div>
+      <button class="primary-button wide" data-action="new-alarm">${icon('plus',18)} Add Alarm</button>
+      <div class="stat-row"><div class="stat-card"><div class="stat-label">Active alarms</div><div class="stat-value stat-accent">${active}<span style="font-size:14px;color:var(--muted)"> / ${state.alarms.length}</span></div></div><div class="stat-card"><div class="stat-label">Up next</div><div class="stat-value small">${next?esc(dateLabel(next.date)):'Nothing scheduled'}</div></div></div>
+      <div class="section-label master-alarm-row"><div class="master-switch">${renderToggle('master-alarms',state.alarmsMasterEnabled)}<span class="master-status">${state.alarmsMasterEnabled?'Alarms on':'Alarms off'}</span></div><h3>Scheduled alarms</h3><span>${state.alarms.length} total</span></div>
+      ${sorted.length?sorted.map(renderAlarmCard).join(''):`<div class="empty-state"><div class="empty-graphic">${icon('alarm',30)}</div><h3>No alarms yet</h3><p>Create your first music alarm and choose a folder to play when the time comes.</p><button class="secondary-button" data-action="new-alarm">${icon('plus',16)} Create alarm</button></div>`}
+      <div class="hint-box">${icon('info',16)}<span><strong>${window.AndroidAlarm?'Android alarms active':'Browser prototype'}</strong>: ${window.AndroidAlarm?'Schedules are registered with Android and do not require this screen to stay open.':'Scheduled alarms are checked only while this page is running.'}</span></div>`;
+  }
+  function renderAlarmCard(alarm){
+    const f=fmtTime(alarm.hour,alarm.minute),folder=getFolder(alarm.folderId);
+    return `<article class="alarm-card ${alarm.enabled&&state.alarmsMasterEnabled?'enabled':''}" data-action="preview-alarm" data-id="${esc(alarm.id)}" title="Open this alarm in the music player" tabindex="0"><div class="alarm-card-main"><div class="alarm-card-copy"><div class="alarm-time">${f.time}<span class="ampm">${f.ampm}</span></div><div class="alarm-name">${esc(alarm.name)}</div><div class="alarm-repeat">${esc(repeatText(alarm))}</div></div><label class="toggle" aria-label="Enable ${esc(alarm.name)}"><input type="checkbox" data-action="toggle-alarm" data-id="${esc(alarm.id)}" ${alarm.enabled?'checked':''}><span class="toggle-track"></span></label></div><div class="alarm-card-footer"><span class="tiny-chip" title="Music folder">${icon('folder',13)} ${esc(folder?.name||'No folder')}</span>${alarm.shuffle?`<span class="tiny-chip accent" title="Smart shuffle">${icon('shuffle',13)} Smart</span>`:''}<div class="alarm-actions"><button class="mini-action" title="Test now" aria-label="Test ${esc(alarm.name)}" data-action="test-alarm" data-id="${esc(alarm.id)}">${icon('play',15)}</button><button class="secondary-button alarm-edit-large" title="Edit" aria-label="Edit ${esc(alarm.name)}" data-action="edit-alarm" data-id="${esc(alarm.id)}">${icon('edit',17)} Edit</button></div></div></article>`;
+  }
+  function renderPlayer(){
+    return `<div class="section-top"><div><h1 class="section-title">Music Player</h1></div></div>
+      <div class="segmented" role="tablist" aria-label="Player sections">${[['now','Now Playing'],['folders','Folders'],['recent','Recent']].map(([id,title])=>`<button class="segment ${playerTab===id?'active':''}" data-action="player-tab" data-id="${id}" role="tab" aria-selected="${playerTab===id}">${title}</button>`).join('')}</div>
+      <div class="player-pane player-pane-${playerTab}">${playerTab==='now'?renderNowPlaying():playerTab==='folders'?renderFolders():renderRecent()}</div>`;
+  }
+  function renderNowPlaying(){
+    const name=currentTrack?.name||'Nothing playing';
+    const artist=currentTrack?.artist||'Choose a song to get started';
+    const tracks=getTracks(state.selectedFolderId);
+    const currentFolder=getFolder(state.selectedFolderId);
+    return `<div class="album-hero ${isPlaying?'playing':''}" id="albumHero"><div class="album-disc"></div><div class="album-corner">${esc(currentTrack?.folderName||currentFolder?.name||'MUSIC FOLDER ALARM')}</div><div class="album-corner right">♫</div></div>
+      <div class="track-heading"><div><div class="track-title" id="currentTitle">${esc(name)}</div><div class="track-artist" id="currentArtist">${esc(artist)}</div></div><button class="track-heart" data-action="open-folders" title="Choose music folder" aria-label="Choose music folder">${icon('folder',18)}</button></div>
+      <div class="progress-wrap"><input class="range" type="range" id="seekRange" data-action="seek" min="0" max="100" value="${(window.AndroidAlarm?nativeDuration:audio.duration)&&Number.isFinite(window.AndroidAlarm?nativeDuration:audio.duration)?Math.round((window.AndroidAlarm?nativePosition:audio.currentTime)/(window.AndroidAlarm?nativeDuration:audio.duration)*100):0}" aria-label="Song progress"><div class="progress-times"><span id="elapsedTime">${fmtDuration(window.AndroidAlarm?nativePosition:audio.currentTime)}</span><span id="totalTime">${fmtDuration((window.AndroidAlarm?nativeDuration:audio.duration)||currentTrack?.duration||0)}</span></div></div>
+      <div class="player-controls"><button class="control" data-action="previous" title="Previous track" aria-label="Previous track">${icon('previous',22)}</button><button class="control play" id="mainPlayButton" data-action="play-pause" title="${isPlaying?'Pause':'Play'}" aria-label="${isPlaying?'Pause':'Play'}">${icon(isPlaying?'pause':'play',26)}</button><button class="control" data-action="next" title="Next track" aria-label="Next track">${icon('next',22)}</button><button class="control ${repeatOne?'active':''}" data-action="repeat-one" title="${repeatOne?'Repeat current track on':'Repeat current track off'}" aria-label="Repeat current track" aria-pressed="${repeatOne}">${icon('repeat',22)}</button></div>
+      <div class="volume-stepper" aria-label="Music volume control"><div class="volume-label-stack"><span class="volume-stepper-label">Music volume</span><span class="volume-extents">1 Min · 16 Max</span></div><div class="volume-stepper-controls"><button type="button" class="stepper-btn" data-action="volume-down" aria-label="Decrease volume">${icon('minus',18)}</button><span class="stepper-level" id="volumeStepLabel" aria-live="polite">${volumeStep()} <small>/ 16</small></span><button type="button" class="stepper-btn" data-action="volume-up" aria-label="Increase volume">${icon('plus',18)}</button></div></div>
+      <div class="queue-card"><div class="queue-header"><div class="queue-heading"><strong>${icon('music',15)} ${esc(currentFolder?.name||'Your queue')}</strong><span>${tracks.length} tracks</span></div><button class="secondary-button queue-shuffle" data-action="shuffle-now" title="Play shuffled music now" aria-label="Play shuffled music now">${icon('shuffle',16)} Shuffle</button></div>
+      <div class="search-input-wrap now-search">${icon('search',17)}<input id="nowTrackSearch" type="search" placeholder="Search tracks in ${esc(currentFolder?.name||'folder')}" value="${esc(nowTrackSearch)}" aria-label="Search tracks in current folder"></div>
+      <div id="nowTrackResults">${renderNowTrackResults(tracks)}</div></div>`;
+  }
+  function renderNowTrackResults(tracks){
+    const search=nowTrackSearch.trim().toLowerCase();
+    const matching=tracks.filter(track=>track.name.toLowerCase().includes(search)||(track.artist||'').toLowerCase().includes(search));
+    if(!tracks.length)return `<div class="small-note" style="padding:12px 2px">No songs available. Load a folder from the Folders tab.</div>`;
+    if(!matching.length)return `<div class="small-note" style="padding:12px 2px">No matching tracks found.</div>`;
+    const visible=search?80:8;
+    return matching.slice(0,visible).map(renderSongRow).join('')+(matching.length>visible?`<button class="text-link" data-action="open-folders">${search?`Showing first ${visible} of ${matching.length} matches. Browse all tracks`:`View all ${matching.length} tracks`}</button>`:'');
+  }
+  function renderSongRow(track){
+    const active=currentTrack?.id===track.id;
+    return `<div class="song-row ${active?'active':''}"><div class="song-icon">${icon('music',17)}</div><div class="song-copy"><strong>${esc(track.name)}</strong><span>${esc(track.artist||'Unknown artist')}</span></div><span class="song-duration">${fmtDuration(track.duration||0)}</span><button class="song-play" data-action="play-track" data-id="${esc(track.id)}" title="Play ${esc(track.name)}" aria-label="Play ${esc(track.name)}">${icon(active&&isPlaying?'pause':'play',17)}</button></div>`;
+  }
+  function renderFolders(){
+    const selected=getFolder(state.selectedFolderId),folders=getFolders();
+    return `<div class="section-label"><h3>Folder history</h3><span>${folders.length} folders</span></div><button class="primary-button wide" data-action="browse-folder">${icon('upload',17)} Add folder from device</button><p class="small-note" style="margin:10px 0 19px">Folders are saved without duplicates. After reloading the page, reselect a folder to restore access to its audio files.</p>
+      ${folders.length?folders.map(f=>`<div class="folder-card"><div class="folder-art">${icon('folder',23)}</div><div class="folder-copy"><strong>${esc(f.name)}</strong><span>${runtimeFolders.has(f.id)?`${getTracks(f.id).length} tracks ready`:`${f.count||0} saved tracks · needs reload`}${selected?.id===f.id?' · Selected':''}</span></div><div class="folder-actions"><button class="folder-play" data-action="play-folder" data-id="${esc(f.id)}" title="Play ${esc(f.name)}" aria-label="Play ${esc(f.name)}">${icon('play',20)}</button></div></div>`).join(''):`<div class="empty-state" style="margin-top:12px"><div class="empty-graphic">${icon('folder',27)}</div><h3>No folders added</h3><p>Add your first music folder to play songs or assign it to an alarm.</p></div>`}
+      <div class="section-label"><h3>Tracks ${selected?'in '+esc(selected.name):''}</h3><button class="secondary-button" data-action="shuffle-folder">${icon('shuffle',16)} Shuffle</button></div><div class="search-input-wrap">${icon('search',17)}<input id="folderTrackSearch" placeholder="Search tracks in this folder" value="${esc(folderSearch)}" aria-label="Search folder tracks"></div>
+      <div class="queue-card">${renderFolderTrackResults()}</div>`;
+  }
+  function renderFolderTrackResults(){
+    const all=getTracks(state.selectedFolderId);
+    if(!all.length)return `<div class="small-note" style="padding:15px 3px">Add or reselect a folder to load its tracks.</div>`;
+    const search=folderSearch.toLowerCase();
+    const matches=all.filter(t=>t.name.toLowerCase().includes(search)||(t.artist||'').toLowerCase().includes(search));
+    const visible=matches.slice(0,folderTrackLimit);
+    return visible.map(renderSongRow).join('')+
+      (matches.length>visible.length?`<button class="text-link wide" data-action="load-more-tracks">Showing ${visible.length} of ${matches.length} tracks · Load 80 more</button>`:
+      `<div class="small-note" style="padding:8px 4px">${matches.length} track${matches.length===1?'':'s'}${folderSearch?' matching search':''}</div>`);
+  }
+  function renderRecent(){
+    const items=state.recent.map(id=>trackById(id)).filter(Boolean);
+    return `<div class="section-label"><h3>Recently played</h3><span>${items.length} available</span></div>${items.length?`<div class="queue-card">${items.map(renderSongRow).join('')}</div>`:`<div class="empty-state"><div class="empty-graphic">${icon('history',30)}</div><h3>No recent tracks</h3><p>Play a song and it will appear here for quick access.</p><button class="secondary-button" data-action="player-tab" data-id="folders">Browse folders</button></div>`}`;
+  }
+  function renderHistory(){
+    const entries=state.history.filter(item=>historyFilter==='all'||(historyFilter==='played'?item.type==='success':item.type!=='success'));
+    const played=state.history.filter(h=>h.type==='success').length, issues=state.history.filter(h=>h.type!=='success').length;
+    return `<div class="section-top"><div><h1 class="section-title">History</h1></div><button class="mini-action" data-action="clear-history" title="Clear history" aria-label="Clear history">${icon('trash',18)}</button></div>
+      <div class="stat-row"><div class="stat-card"><div class="stat-label">Successful plays</div><div class="stat-value" style="color:var(--green)">${played}</div></div><div class="stat-card"><div class="stat-label">Warnings / issues</div><div class="stat-value" style="color:var(--amber)">${issues}</div></div></div>
+      <div class="history-filter">${[['all','All'],['played','Played'],['issues','Issues']].map(([id,title])=>`<button class="filter-pill ${historyFilter===id?'active':''}" data-action="history-filter" data-id="${id}">${title}</button>`).join('')}</div>
+      ${entries.length?entries.map(h=>`<div class="history-item"><div class="history-icon ${h.type==='success'?'':h.type==='error'?'error':'warn'}">${icon(h.type==='success'?'check':'warning',18)}</div><div class="history-body"><strong>${esc(h.title)}</strong><p>${esc(h.detail)}</p><div class="history-meta">${esc(new Date(h.at).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'}))}</div></div><div class="history-time">${esc(new Date(h.at).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'}))}</div></div>`).join(''):`<div class="empty-state"><div class="empty-graphic">${icon('history',30)}</div><h3>Nothing here yet</h3><p>Test an alarm or play music to start building your history.</p><button class="secondary-button" data-action="tab" data-id="alarms">Go to Alarms</button></div>`}`;
+  }
+  function modalFrame(title,body,footer='',extraClass=''){
+    return `<div class="overlay" data-action="close-overlay"><div class="modal ${extraClass}" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="modal-head"><h2>${esc(title)}</h2><button class="icon-button" data-action="close-modal" aria-label="Close">${icon('close',19)}</button></div><div class="modal-body">${body}</div>${footer?`<div class="modal-footer">${footer}</div>`:''}</div></div>`;
+  }
+  function openEditor(alarm=null){
+    editor=alarm?{...alarm,days:[...(alarm.days||EVERY)],repeat:alarm.once?'once':getRepeatPreset(alarm.days||EVERY),ampm:alarm.hour<12?'AM':'PM',hourInput:String(alarm.hour%12||12),minuteInput:String(alarm.minute).padStart(2,'0')}: {id:null,name:'',hourInput:'7',minuteInput:'00',ampm:'AM',repeat:'every',days:[...EVERY],once:false,folderId:state.selectedFolderId||'',shuffle:state.settings.defaultShuffle,enabled:true,volumeVariable:true,volumeMin:10,volumeMax:16,volumeLevel:12};
+    editor.volumeVariable=editor.volumeVariable!==false;editor.volumeMin=Math.min(16,Math.max(10,Number(editor.volumeMin)||10));editor.volumeMax=Math.min(16,Math.max(editor.volumeMin,Number(editor.volumeMax)||16));editor.volumeLevel??=12;renderEditor();
+  }
+  function getRepeatPreset(days){if(days.length===7)return 'every';if(days.length===5&&WEEKDAYS.every(d=>days.includes(d)))return 'weekdays';if(days.length===2&&WEEKENDS.every(d=>days.includes(d)))return 'weekends';return 'custom';}
+  function renderEditor(){
+    const body=`<label class="field"><span class="field-label">Alarm name</span><input class="text-input" id="alarmName" data-editor="name" value="${esc(editor.name)}" maxlength="60" placeholder="e.g. Morning Music" autocomplete="off"></label>
+      <div class="field"><span class="field-label">Alarm time</span><div class="time-grid"><label><span class="small-note">HOUR</span><input class="text-input" id="alarmHour" data-editor="hourInput" value="${esc(editor.hourInput)}" inputmode="numeric" maxlength="2" aria-label="Hour"></label><label><span class="small-note">MINUTE</span><input class="text-input" id="alarmMinute" data-editor="minuteInput" value="${esc(editor.minuteInput)}" inputmode="numeric" maxlength="2" aria-label="Minute"></label><label><span class="small-note">AM / PM</span><select class="select-input" data-editor="ampm" aria-label="AM or PM"><option ${editor.ampm==='AM'?'selected':''}>AM</option><option ${editor.ampm==='PM'?'selected':''}>PM</option></select></label></div></div>
+      <div class="separator"></div><div class="subhead">Repeat schedule</div><div class="chip-row">${[['every','Every day'],['weekdays','Weekdays'],['weekends','Weekends'],['custom','Custom'],['once','One time']].map(([id,title])=>`<button class="choice-chip ${editor.repeat===id?'active':''}" data-action="repeat-preset" data-id="${id}">${title}</button>`).join('')}</div>
+      ${editor.repeat==='custom'?`<div class="day-grid">${DAYS.map((d,i)=>`<button class="day-chip ${editor.days.includes(i)?'active':''}" data-action="repeat-day" data-id="${i}" aria-pressed="${editor.days.includes(i)}">${d}</button>`).join('')}</div>`:''}
+      ${editor.repeat==='once'?'<p class="inline-help">One-time alarms run at the next occurrence of this time.</p>':''}
+      <div class="separator"></div><div class="subhead">Music folder</div><div class="folder-picker-row"><select class="select-input" data-editor="folderId" aria-label="Music folder"><option value="" ${!editor.folderId?'selected':''}>Choose music folder</option>${folderOptions(editor.folderId)}</select><button class="secondary-button" data-action="browse-folder" data-intent="editor" title="Browse local folder">${icon('folder',17)}</button></div><p class="inline-help">Choose a folder containing audio files to play when this alarm fires.</p>
+      <div class="setting-row"><div><strong>Smart Shuffle</strong><p>Prefer a different starting song each time this alarm fires.</p></div>${renderToggle('editor-shuffle',editor.shuffle)}</div>
+      <div class="separator"></div><div class="subhead">Alarm volume (1–16)</div>
+      <label class="setting-row"><div><strong>Variable volume ${icon('volume',16)}</strong><p>Automatically adjust playback within the selected minimum and maximum levels.</p></div>${renderToggle('editor-variable',editor.volumeVariable)}</label>
+      <div class="volume-limits"><label><span class="field-label">Minimum volume</span><input class="text-input" type="number" min="10" max="16" data-editor="volumeMin" value="${editor.volumeMin}"></label><label><span class="field-label">Maximum volume</span><input class="text-input" type="number" min="1" max="16" data-editor="volumeMax" value="${editor.volumeMax}"></label></div>
+      <label class="field" style="margin-top:14px"><span class="field-label">Starting volume: <span id="startingVolumeLabel">${editor.volumeLevel}</span>/16</span><input class="range" type="range" min="1" max="16" step="1" data-editor="volumeLevel" value="${editor.volumeLevel}"></label>
+      <p class="inline-help">Variable volume is ON by default (minimum 10/16). On Android, the 1–16 scale maps to the device's actual media volume range.</p>
+      <div class="setting-row"><div><strong>Alarm enabled</strong><p>Turn off without deleting this alarm.</p></div>${renderToggle('editor-enabled',editor.enabled)}</div>
+      <div class="form-error" id="editorError" role="alert"></div>`;
+    const footer=`<button class="secondary-button" data-action="close-modal">Cancel</button><button class="primary-button" id="saveAlarmButton" data-action="save-alarm">${editor.id?'Save changes':'Create alarm'}</button>`;
+    overlayRoot.innerHTML=modalFrame(editor.id?'Edit Alarm':'Create Alarm',body,footer);
+    updateEditorValidation();
+  }
+  function renderToggle(action,checked){return `<label class="toggle"><input type="checkbox" data-action="${action}" ${checked?'checked':''}><span class="toggle-track"></span></label>`;}
+  function editorValues(){
+    const hour=Number(editor.hourInput),minute=Number(editor.minuteInput);
+    const validHour=/^\d{1,2}$/.test(editor.hourInput)&&hour>=1&&hour<=12;
+    const validMinute=/^\d{1,2}$/.test(editor.minuteInput)&&minute>=0&&minute<=59;
+    const h24=(hour%12)+(editor.ampm==='PM'?12:0);
+    const days=editor.repeat==='every'?EVERY:editor.repeat==='weekdays'?WEEKDAYS:editor.repeat==='weekends'?WEEKENDS:editor.repeat==='once'?[]:editor.days;
+    const duplicate=state.alarms.some(a=>a.id!==editor.id&&a.hour===h24&&a.minute===minute&&Boolean(a.once)===(editor.repeat==='once')&&JSON.stringify([...(a.days||[])].sort())===JSON.stringify([...days].sort()));
+    const error=!editor.name.trim()?'Enter an alarm name.':!validHour?'Hour must be 1–12.':!validMinute?'Minute must be 0–59.':editor.repeat==='custom'&&days.length===0?'Select at least one day.':duplicate?'An alarm already exists at this time with the same repeat schedule.':'';
+    return {error,h24,minute,days};
+  }
+  function updateEditorValidation(){
+    if(!editor)return;
+    const {error}=editorValues();
+    const message=document.getElementById('editorError'),button=document.getElementById('saveAlarmButton');
+    if(message)message.textContent=error;
+    if(button)button.disabled=!!error;
+  }
+  function saveAlarm(){
+    const {error,h24,minute,days}=editorValues();if(error){toast(error);return;}
+    const record={id:editor.id||uid(),name:editor.name.trim(),hour:h24,minute,once:editor.repeat==='once',days:[...days],folderId:editor.folderId||'',shuffle:!!editor.shuffle,enabled:!!editor.enabled,volumeVariable:!!editor.volumeVariable,volumeMin:Math.max(10,Math.min(16,Number(editor.volumeMin)||10)),volumeMax:Math.max(10,Math.min(16,Number(editor.volumeMax)||16)),volumeLevel:Math.max(1,Math.min(16,Number(editor.volumeLevel)||12))};
+    if(record.volumeMin>record.volumeMax){toast('Minimum volume cannot exceed maximum.');return;}
+    if(editor.id){const index=state.alarms.findIndex(a=>a.id===editor.id);if(index>=0)state.alarms[index]=record;toast('Alarm updated');}
+    else {state.alarms.push(record);toast('Alarm created');}
+    save();closeModal();renderMain(false);
+  }
+  function closeModal(){overlayRoot.innerHTML='';editor=null;}
+  function openSearch(){
+    searchTerm='';overlayRoot.innerHTML=modalFrame('Search',`<div class="search-input-wrap">${icon('search',18)}<input id="searchInput" placeholder="Search alarms, songs, folders..." autocomplete="off" aria-label="Search"></div><div id="searchResults" class="search-results"></div>`);
+    renderSearchResults();setTimeout(()=>document.getElementById('searchInput')?.focus(),30);
+  }
+  function renderSearchResults(){
+    const node=document.getElementById('searchResults');if(!node)return;
+    const query=searchTerm.toLowerCase().trim();
+    if(!query){node.innerHTML='<p class="small-note">Type to search your alarms, music folders, and available songs.</p>';return;}
+    const alarms=state.alarms.filter(a=>a.name.toLowerCase().includes(query));
+    const folders=getFolders().filter(f=>f.name.toLowerCase().includes(query));
+    const tracks=allTracks().filter(t=>t.name.toLowerCase().includes(query)||t.artist.toLowerCase().includes(query)).slice(0,30);
+    const results=[...alarms.map(a=>`<button class="search-item" data-action="search-alarm" data-id="${esc(a.id)}">${icon('alarm',18)}<div><strong>${esc(a.name)}</strong><span>Alarm · ${esc(fmtTime(a.hour,a.minute).time)} ${fmtTime(a.hour,a.minute).ampm}</span></div>${icon('chevron',15)}</button>`),...folders.map(f=>`<button class="search-item" data-action="search-folder" data-id="${esc(f.id)}">${icon('folder',18)}<div><strong>${esc(f.name)}</strong><span>Music folder</span></div>${icon('chevron',15)}</button>`),...tracks.map(t=>`<button class="search-item" data-action="search-track" data-id="${esc(t.id)}">${icon('music',18)}<div><strong>${esc(t.name)}</strong><span>${esc(t.artist)}</span></div>${icon('play',15)}</button>`)];
+    node.innerHTML=results.length?results.join(''):'<p class="small-note">No matching results.</p>';
+  }
+  function openSettings(){
+    const body=`<p class="setting-section">Playback</p>
+      <div class="setting-row"><div><strong>Smart Shuffle by default</strong><p>Enable for newly created alarms.</p></div>${renderToggle('settings-shuffle',state.settings.defaultShuffle)}</div>
+      <div class="setting-row"><div><strong>Low-battery voice reminder</strong><p>Voice reminder when battery drops below 10% and the device is not charging. Requires browser battery access and speech permission.</p></div>${renderToggle('settings-battery',state.settings.lowBatteryVoice)}</div>
+      <div class="setting-row"><div><strong>Bluetooth / audio output</strong><p>Choose your speaker or headset in your device's system settings.</p></div>${icon('headphones',19)}</div>
+      <p class="setting-section" style="margin-top:24px">Permissions</p>
+      <div class="setting-row"><div><strong>Permission settings</strong><p>Manage alarm, notification, and music access in Android.</p></div><button type="button" class="secondary-button app-permissions-button" data-action="app-permissions">${icon('settings',16)} App permissions ${icon('chevron',14)}</button></div>
+      <div class="hint-box">${icon('info',16)}<span>Android handles the notification drawer and media controls outside this app. In this browser preview, system permissions cannot be opened. The installed Android app requires a native permissions link.</span></div>`;
+    overlayRoot.innerHTML=modalFrame('Settings',body,`<button class="primary-button" data-action="close-modal">Done</button>`);
+  }
+  function requestFolder(intent){pickerIntent=intent||'player';if(window.AndroidAlarm){window.AndroidAlarm.pickFolder(pickerIntent);return;}folderInput.value='';folderInput.click();}
+  function fileToTrack(file,folderId,root){
+    const relative=file.webkitRelativePath||file.name;
+    const clean=file.name.replace(/\.[^.]+$/,'').replace(/[_]+/g,' ');
+    const split=clean.split(/\s+-\s+/);
+    return {id:`${folderId}/${relative}`,name:split.length>1?split.slice(1).join(' - '):clean,artist:split.length>1?split[0]:'Local audio',fileObject:file,duration:0,folderId};
+  }
+  function onFolderFiles(files){
+    if(!files.length)return;
+    const audioFiles=files.filter(f=>/\.(mp3|m4a|wav|ogg|flac|aac|opus|webm|mp4)$/i.test(f.name)||f.type.startsWith('audio/'));
+    if(!audioFiles.length){toast('No supported audio files found in this folder.');return;}
+    const root=(audioFiles[0].webkitRelativePath||audioFiles[0].name).split('/')[0];
+    const id=`local:${root}`;
+    const tracks=audioFiles.map(f=>fileToTrack(f,id,root)).sort((a,b)=>a.name.localeCompare(b.name));
+    runtimeFolders.set(id,tracks);
+    const meta={id,name:root,count:tracks.length};
+    const index=state.folders.findIndex(f=>f.id===id);
+    if(index>=0)state.folders[index]=meta;else state.folders.push(meta);
+    state.folders=state.folders.filter((f,i,arr)=>arr.findIndex(o=>String(o.id).toLowerCase()===String(f.id).toLowerCase())===i);
+    state.selectedFolderId=id;
+    if(editor&&pickerIntent==='editor'){editor.folderId=id;renderEditor();}
+    else {tab='player';playerTab='folders';renderMain();}
+    save();toast(`Loaded ${tracks.length} tracks from ${root}`);
+  }
+  function chooseFolder(id){state.selectedFolderId=id;save();playerTab='now';renderMain();toast(`Selected ${getFolder(id)?.name||'folder'}`);}
+  function rememberRecent(track){state.recent=[track.id,...state.recent.filter(id=>id!==track.id)].slice(0,7);save();}
+  function chooseStartTrack(alarm,tracks){
+    if(!alarm.shuffle)return tracks[0];
+    const prior=state.startHistory[alarm.id]||{used:[],last:null};
+    let candidates=tracks.filter(t=>!prior.used.includes(t.id));
+    if(!candidates.length)candidates=[...tracks];
+    if(candidates.length>1)candidates=candidates.filter(t=>t.id!==prior.last);
+    if(!candidates.length)candidates=[...tracks];
+    const start=candidates[Math.floor(Math.random()*candidates.length)];
+    state.startHistory[alarm.id]={used:[...new Set([...(prior.used.length===tracks.length?[]:prior.used),start.id])],last:start.id};
+    save();return start;
+  }
+  function shuffleArray(items){const arr=[...items];for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+  function queueForAlarm(alarm,tracks){
+    const start=chooseStartTrack(alarm,tracks);
+    const rest=tracks.filter(t=>t.id!==start.id);
+    return [start,...(alarm.shuffle?shuffleArray(rest):rest)];
+  }
+  function reportTrackFailure(alarm,reason){
+    playbackToken++;audio.pause();audio.removeAttribute('src');audio.load();currentTrack=null;isPlaying=false;alarmPlayback=null;activeVolumeRule=null;
+    logHistory('error',`${alarm.name}: music unavailable`,`The selected music folder could not be played. ${reason} Nothing will play automatically until the selected folder is available. Re-add the folder and verify audio permissions.`,alarm.id);
+    toast(`${alarm.name}: music unavailable — please reload its folder.`);
+    updateMediaMetadata();if(tab==='player')renderMain(false);
+  }
+  function startQueue(queue,index=0,alarm=null){
+    currentQueue=[...queue];queueIndex=index;alarmPlayback=alarm?{alarm,attempted:new Set(),logged:false}:null;
+    playQueueIndex(index);
+  }
+  function playQueueIndex(index){
+    if(index<0||index>=currentQueue.length){if(alarmPlayback)reportTrackFailure(alarmPlayback.alarm,'No playable tracks were found.');else toast('No track available.');return;}
+    const track=currentQueue[index];queueIndex=index;currentTrack=track;
+    updateMediaMetadata();
+    const token=++playbackToken;
+    let failed=false;
+    const fail=(error)=>{
+      if(failed||token!==playbackToken)return;failed=true;
+      if(alarmPlayback){
+        alarmPlayback.attempted.add(track.id);
+        const next=currentQueue.findIndex(t=>!alarmPlayback.attempted.has(t.id));
+        if(next>=0)playQueueIndex(next);
+        else reportTrackFailure(alarmPlayback.alarm,`All ${currentQueue.length} track(s) failed: ${error?.message||'unreadable audio'}`);
+      } else {isPlaying=false;logHistory('error','Track playback failed',`${track.name}: ${error?.message||'unreadable audio'}`);toast('Could not play this track. Try another file.');updateMediaMetadata();}
+    };
+    if(window.AndroidAlarm){
+      try{window.AndroidAlarm.startPlayback(JSON.stringify(currentQueue),index,volumeStep());isPlaying=true;rememberRecent(track);updateMediaMetadata();if(tab==='player')renderMain(false);}catch(e){fail(e);}return;
+    }
+    audio.pause();audio.onerror=null;
+    try{
+      audio.src=track.fileObject?URL.createObjectURL(track.fileObject):track.file;
+      audio.load();
+      audio.onerror=()=>fail(new Error('Audio file could not be opened'));
+      const attempt=audio.play();
+      if(attempt&&typeof attempt.then==='function'){
+        attempt.then(()=>{
+          if(token!==playbackToken)return;
+          isPlaying=true;rememberRecent(track);
+          if(alarmPlayback&&!alarmPlayback.logged){alarmPlayback.logged=true;logHistory('success',`${alarmPlayback.alarm.name}: started playing`,`${track.name} · ${currentQueue.length} tracks available`,alarmPlayback.alarm.id);}
+          if(tab==='player')renderMain(false);
+          updateMediaMetadata();
+        }).catch(fail);
+      }
+      if(tab==='player')renderMain(false);
+    }catch(error){fail(error);}
+  }
+  function playShuffledFolderNow(){
+    const tracks=getTracks(state.selectedFolderId);
+    if(!tracks.length){toast('Add or reload a music folder before shuffling.');tab='player';playerTab='folders';renderMain();return;}
+    const previous=lastFolderShuffleId||currentTrack?.id;
+    const candidates=tracks.length>1?tracks.filter(track=>track.id!==previous):tracks;
+    const start=candidates[Math.floor(Math.random()*candidates.length)];
+    lastFolderShuffleId=start.id;
+    manualShuffle=true;
+    previewAlarm=null;
+    activeVolumeRule=null;
+    const queue=[start,...shuffleArray(tracks.filter(t=>t.id!==start.id))];
+    tab='player';playerTab='now';
+    nowTrackSearch='';
+    startQueue(queue);
+    renderMain();
+  }
+  function playTrackById(id){
+    const track=trackById(id);if(!track){toast('Song is unavailable. Reload its folder.');return;}
+    if(currentTrack?.id===id&&isPlaying){pausePlayback();return;}
+    const folderId=track.folderId||getFolders().find(f=>getTracks(f.id).some(t=>t.id===id))?.id;
+    if(folderId)state.selectedFolderId=folderId;
+    const tracks=getTracks(state.selectedFolderId);
+    const queue=manualShuffle?shuffleArray(tracks.filter(t=>t.id!==id)):[...tracks.filter(t=>t.id!==id)];
+    activeVolumeRule=null;save();startQueue([track,...queue],0,null);
+  }
+  function triggerAlarm(alarm,manual=false){
+    const tracks=getTracks(alarm.folderId);
+    const low=alarm.volumeVariable!==false?Math.max(10,Number(alarm.volumeMin)||10):1,high=alarm.volumeVariable!==false?Math.max(low,Number(alarm.volumeMax)||16):16;
+    activeVolumeRule=alarm.volumeVariable!==false?{low,high}:null;
+    setVolume(Math.round(Math.max(low,Math.min(high,Number(alarm.volumeLevel||12)))/16*100));
+    if(!manual)logHistory('warning',`${alarm.name}: scheduled trigger`,`The browser detected the scheduled time for this alarm and started attempting playback from its saved folder. This is a trigger event, not confirmation of a playback failure. Check for the subsequent successful-play or fallback event for the outcome.`,alarm.id);
+    if(tracks.length){const queue=queueForAlarm(alarm,tracks);startQueue(queue,0,alarm);toast(`${alarm.name} · Starting music`);}
+    else reportTrackFailure(alarm,alarm.folderId?'Folder unavailable or empty. Re-select the folder in the browser.':'No music folder selected.');
+  }
+  function checkAlarms(){
+    if(window.AndroidAlarm)return; // Native AlarmManager is authoritative.
+    if(!state.alarmsMasterEnabled)return;
+    const now=new Date(),dateKey=`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
+    for(const alarm of state.alarms){
+      if(!alarm.enabled||alarm.hour!==now.getHours()||alarm.minute!==now.getMinutes())continue;
+      if(!alarm.once&&!(alarm.days||EVERY).includes(now.getDay()))continue;
+      const key=`${alarm.id}:${dateKey}:${alarm.hour}:${alarm.minute}`;
+      if(state.lastFired[alarm.id]===key)continue;
+      state.lastFired[alarm.id]=key;
+      if(alarm.once)alarm.enabled=false;
+      save();triggerAlarm(alarm);if(tab==='alarms')renderMain(false);
+    }
+  }
+  function pausePlayback(){
+    if(window.AndroidAlarm)window.AndroidAlarm.pause();else audio.pause();isPlaying=false;updateMediaMetadata();
+    if(tab==='player')renderMain(false);
+  }
+  function togglePlayback(){
+    if(isPlaying){pausePlayback();return;}
+    if(window.AndroidAlarm&&currentTrack){window.AndroidAlarm.resume();isPlaying=true;renderMain(false);return;}
+    if(currentTrack&&audio.src){audio.play().then(()=>{isPlaying=true;renderMain(false);}).catch(()=>toast('Browser blocked playback. Tap again.'));return;}
+    const tracks=getTracks(state.selectedFolderId);
+    if(previewAlarm){const alarm=previewAlarm;previewAlarm=null;triggerAlarm(alarm,true);return;}
+    if(!tracks.length){toast('Choose a music folder first.');playerTab='folders';renderMain();return;}
+    startQueue(manualShuffle?shuffleArray(tracks):tracks);
+  }
+  function nextTrack(direction=1){
+    if(window.AndroidAlarm&&currentQueue.length){if(direction>0)window.AndroidAlarm.next();else window.AndroidAlarm.previous();return;}
+    if(!currentQueue.length){togglePlayback();return;}
+    let next=queueIndex+direction;
+    if(next>=currentQueue.length)next=0;if(next<0)next=currentQueue.length-1;
+    alarmPlayback=null;playQueueIndex(next);
+  }
+  // 1 is the lowest positive media volume in the preview; 16 is full output.
+  // Android builds must map these 16 levels to AudioManager's actual media stream range.
+  function volumeStep(){return Math.max(1,Math.min(16,Math.round((Number(state.settings.volume)||0)*16/100)));}
+  function volumePercentForStep(step){return Math.round(Math.max(1,Math.min(16,step))/16*100);}
+  function setVolume(value){
+    state.settings.volume=Math.max(6.25,Math.min(100,Number(value)||6.25));
+    audio.volume=state.settings.volume/100; if(window.AndroidAlarm)window.AndroidAlarm.setVolumeStep(volumeStep());save();
+    const label=document.getElementById('volumeStepLabel');if(label)label.innerHTML=`${volumeStep()} <small>/ 16</small>`;
+  }
+  function changeVolume(direction){
+    const current=volumeStep();
+    const low=activeVolumeRule?.low||1,high=activeVolumeRule?.high||16;
+    const next=Math.max(low,Math.min(high,current+direction));
+    setVolume(volumePercentForStep(next));
+    if(next===current)toast(direction>0?'Maximum volume reached':'Minimum volume reached');
+  }
+  function updateMediaMetadata(){
+    if(!('mediaSession' in navigator))return;
+    try{
+      navigator.mediaSession.metadata=currentTrack&&typeof MediaMetadata!=='undefined'?new MediaMetadata({title:currentTrack.name,artist:currentTrack.artist||'Local music',album:currentTrack.folderName||getFolder(state.selectedFolderId)?.name||'Music Folder Alarm'}):null;
+      navigator.mediaSession.playbackState=isPlaying?'playing':'paused';
+    }catch{}
+  }
+  function setupMediaSession(){
+    if(!('mediaSession' in navigator))return;
+    for(const [name,fn] of [['play',()=>{if(!isPlaying)togglePlayback();}],['pause',()=>{if(isPlaying)pausePlayback();}],['previoustrack',()=>nextTrack(-1)],['nexttrack',()=>nextTrack(1)]]){
+      try{navigator.mediaSession.setActionHandler(name,fn);}catch{}
+    }
+  }
+  function updateProgress(){
+    const seek=document.getElementById('seekRange'),elapsed=document.getElementById('elapsedTime'),total=document.getElementById('totalTime');
+    const elapsedValue=window.AndroidAlarm?nativePosition:audio.currentTime, durationValue=window.AndroidAlarm?nativeDuration:audio.duration;
+    if(seek)seek.value=Number.isFinite(durationValue)&&durationValue>0?Math.round(elapsedValue/durationValue*100):0;
+    if(elapsed)elapsed.textContent=fmtDuration(elapsedValue);
+    if(total)total.textContent=fmtDuration(durationValue||currentTrack?.duration||0);
+  }
+  function openAppPermissions(){
+    // In the Android application, this bridge opens Settings > Apps > Music Folder Alarm.
+    const bridge=window.AndroidAlarm || window.Android;
+    if(bridge && typeof bridge.openAppPermissions==='function'){
+      try{bridge.openAppPermissions();closeModal();return;}catch(error){console.warn('Cannot open Android app permissions',error);}
+    }
+    const body=`<div class="permissions-intro">${icon('settings',25)}<strong>App permissions</strong><p>On Android, this button opens the system permissions page for Music Folder Alarm, including notifications and other app permissions.</p></div>
+      <div class="permission-line">${icon('bell',18)}<div><strong>Notifications</strong><span>Android media controls and alarm alerts</span></div>${icon('chevron',17)}</div>
+      <div class="permission-line">${icon('alarm',18)}<div><strong>Alarms & reminders</strong><span>Exact alarm access, if required</span></div>${icon('chevron',17)}</div>
+      <div class="permission-line">${icon('folder',18)}<div><strong>Music folder access</strong><span>Access granted to folders you select</span></div>${icon('chevron',17)}</div>
+      <p class="inline-help" style="margin-top:18px">Browser preview only: a web page cannot launch the installed app’s Android Settings page. This button will open the real system settings when the native Android bridge is implemented.</p>`;
+    overlayRoot.innerHTML=modalFrame('App permissions',body,`<button class="primary-button" data-action="open-settings">Back to settings</button>`);
+  }
+  function batterySetup(){
+    if(!navigator.getBattery)return;
+    navigator.getBattery().then(battery=>{
+      batteryMonitor=battery;
+      let lastLow=false;
+      const check=()=>{
+        const low=battery.level<=.2&&!battery.charging;
+        if(low&&!lastLow&&state.settings.lowBatteryVoice&&'speechSynthesis' in window){
+          try{const speech=new SpeechSynthesisUtterance('Battery is low. Please connect your charger.');window.speechSynthesis.speak(speech);}catch{}
+        }
+        lastLow=low;
+      };
+      battery.addEventListener('levelchange',check);battery.addEventListener('chargingchange',check);check();
+    }).catch(()=>{});
+  }
+  function handleClick(event){
+    const target=event.target.closest('[data-action]');if(!target)return;
+    const action=target.dataset.action,id=target.dataset.id;
+    if(action==='preview-alarm' && event.target.closest('button,input,label,a,select'))return;
+    if(action==='close-overlay'&&event.target!==target)return;
+    if(['toggle-alarm','master-alarms','editor-shuffle','editor-enabled','editor-variable','settings-shuffle','settings-battery'].includes(action))return;
+    switch(action){
+      case 'tab':navigate(id);break;
+      case 'player-tab':playerTab=id;folderTrackLimit=80;renderMain(false);break;
+      case 'load-more-tracks':folderTrackLimit+=80;{const panel=document.getElementById('folderTrackSearch')?.closest('.search-input-wrap')?.nextElementSibling;if(panel)panel.innerHTML=renderFolderTrackResults();}break;
+      case 'new-alarm':openEditor();break;
+      case 'preview-alarm':{const a=state.alarms.find(x=>x.id===id);if(a){previewAlarm=a;nowTrackSearch='';state.selectedFolderId=a.folderId;manualShuffle=!!a.shuffle;currentTrack=null;currentQueue=[];queueIndex=-1;isPlaying=false;alarmPlayback=null;activeVolumeRule=null;audio.pause();audio.removeAttribute('src');save();tab='player';playerTab='now';renderMain();toast('Alarm ready — press Play to use its saved rules.');}break;}
+      case 'play-folder':{const folder=getFolder(id);if(!folder)break;state.selectedFolderId=id;save();const tracks=getTracks(id);tab='player';playerTab='now';nowTrackSearch='';if(tracks.length){activeVolumeRule=null;startQueue(manualShuffle?shuffleArray(tracks):tracks);renderMain();}else {renderMain();toast('Folder is saved, but music needs reloading. Add this folder again from your device.');}break;}
+      case 'shuffle-folder':playShuffledFolderNow();break;
+      case 'volume-down':changeVolume(-1);break;
+      case 'volume-up':changeVolume(1);break;
+      case 'repeat-one':repeatOne=!repeatOne;if(window.AndroidAlarm)window.AndroidAlarm.setRepeatOne(repeatOne);renderMain(false);break;
+      case 'edit-alarm':{const alarm=state.alarms.find(a=>a.id===id);if(alarm)openEditor(alarm);break;}
+      case 'test-alarm':{const alarm=state.alarms.find(a=>a.id===id);if(alarm)triggerAlarm(alarm,true);break;}
+      case 'repeat-preset':editor.repeat=id;editor.once=id==='once';if(id==='every')editor.days=[...EVERY];if(id==='weekdays')editor.days=[...WEEKDAYS];if(id==='weekends')editor.days=[...WEEKENDS];renderEditor();break;
+      case 'repeat-day':{const day=Number(id);editor.days=editor.days.includes(day)?editor.days.filter(d=>d!==day):[...editor.days,day].sort();renderEditor();break;}
+      case 'save-alarm':saveAlarm();break;
+      case 'close-modal':case 'close-overlay':closeModal();break;
+      case 'browse-folder':requestFolder(target.dataset.intent||'player');break;
+      case 'select-folder':chooseFolder(id);break;
+      case 'open-folders':tab='player';playerTab='folders';renderMain();break;
+      case 'play-track':playTrackById(id);break;
+      case 'play-pause':togglePlayback();break;
+      case 'previous':nextTrack(-1);break;
+      case 'next':nextTrack(1);break;
+      case 'shuffle-now':playShuffledFolderNow();break;
+      case 'history-filter':historyFilter=id;renderMain(false);break;
+      case 'clear-history':if(state.history.length&&window.confirm('Clear alarm history?')){state.history=[];save();renderMain(false);}break;
+      case 'app-permissions':openAppPermissions();break;
+      case 'open-settings':openSettings();break;
+      case 'search-alarm':{const a=state.alarms.find(x=>x.id===id);closeModal();if(a){navigate('alarms');openEditor(a);}break;}
+      case 'search-folder':closeModal();state.selectedFolderId=id;save();tab='player';playerTab='folders';renderMain();break;
+      case 'search-track':closeModal();tab='player';playerTab='now';playTrackById(id);break;
+    }
+  }
+  function handleAlarmCardKey(event){
+    if((event.key==='Enter'||event.key===' ') && event.target.matches('.alarm-card[data-action="preview-alarm"]')){
+      event.preventDefault();event.target.click();
+    }
+  }
+  function handleChange(event){
+    const target=event.target,action=target.dataset.action;
+    if(target.dataset.editor){editor[target.dataset.editor]=target.value;const label=document.getElementById('startingVolumeLabel');if(label)label.textContent=editor.volumeLevel;updateEditorValidation();return;}
+    switch(action){
+      case 'master-alarms':state.alarmsMasterEnabled=target.checked;save();renderMain(false);toast(target.checked?'All scheduled alarms turned on':'All scheduled alarms turned off');break;
+      case 'toggle-alarm':{const a=state.alarms.find(a=>a.id===target.dataset.id);if(a){a.enabled=target.checked;save();renderMain(false);}break;}
+      case 'editor-shuffle':editor.shuffle=target.checked;break;
+      case 'editor-variable':editor.volumeVariable=target.checked;break;
+      case 'editor-enabled':editor.enabled=target.checked;break;
+      case 'settings-shuffle':state.settings.defaultShuffle=target.checked;save();break;
+      case 'settings-battery':state.settings.lowBatteryVoice=target.checked;save();break;
+      case 'volume':setVolume(target.value);break;
+      case 'seek':if(window.AndroidAlarm)window.AndroidAlarm.seek(Math.round(Number(target.value)));else if(Number.isFinite(audio.duration)&&audio.duration>0)audio.currentTime=audio.duration*Number(target.value)/100;break;
+    }
+  }
+  function handleInput(event){
+    const target=event.target;
+    if(target.id==='nowTrackSearch'){nowTrackSearch=target.value;const box=document.getElementById('nowTrackResults');if(box)box.innerHTML=renderNowTrackResults(getTracks(state.selectedFolderId));return;}
+    if(target.id==='folderTrackSearch'){folderSearch=target.value;folderTrackLimit=80;const box=target.closest('.search-input-wrap').nextElementSibling;if(box)box.innerHTML=renderFolderTrackResults();return;}
+    if(target.id==='searchInput'){searchTerm=target.value;renderSearchResults();return;}
+    if(target.dataset.editor){editor[target.dataset.editor]=target.value;const label=document.getElementById('startingVolumeLabel');if(label)label.textContent=editor.volumeLevel;updateEditorValidation();return;}
+    if(target.dataset.action==='volume')setVolume(target.value);
+    if(target.dataset.action==='seek'&&Number.isFinite(window.AndroidAlarm?nativeDuration:audio.duration)&& (window.AndroidAlarm?nativeDuration:audio.duration)>0){const elapsed=document.getElementById('elapsedTime');if(elapsed)elapsed.textContent=fmtDuration((window.AndroidAlarm?nativeDuration:audio.duration)*Number(target.value)/100);}
+  }
+  document.getElementById('searchButton').innerHTML=icon('search');
+  document.getElementById('settingsButton').innerHTML=icon('settings');
+  document.getElementById('searchButton').addEventListener('click',openSearch);
+  document.getElementById('settingsButton').addEventListener('click',openSettings);
+  document.addEventListener('click',handleClick);
+  document.addEventListener('keydown',handleAlarmCardKey);
+  document.addEventListener('change',handleChange);
+  document.addEventListener('input',handleInput);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlayRoot.innerHTML)closeModal();});
+  folderInput.addEventListener('change',e=>onFolderFiles([...e.target.files]));
+  audio.addEventListener('timeupdate',updateProgress);
+  audio.addEventListener('loadedmetadata',()=>{if(currentTrack&&Number.isFinite(audio.duration))currentTrack.duration=audio.duration;updateProgress();});
+  audio.addEventListener('ended',()=>{if(repeatOne){audio.currentTime=0;audio.play().catch(()=>toast('Unable to repeat track'));}else nextTrack(1);});
+   audio.addEventListener('pause',()=>{isPlaying=false;const btn=document.getElementById('mainPlayButton');if(btn){btn.innerHTML=icon('play',26);btn.setAttribute('aria-label','Play');}document.getElementById('albumHero')?.classList.remove('playing');updateMediaMetadata();});
+   audio.addEventListener('playing',()=>{isPlaying=true;const btn=document.getElementById('mainPlayButton');if(btn){btn.innerHTML=icon('pause',26);btn.setAttribute('aria-label','Pause');}document.getElementById('albumHero')?.classList.add('playing');updateMediaMetadata();});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkAlarms();});
+  // Android sends exact-alarm delivery and playback progress independently of WebView activity.
+  const receivingNativeFolders=new Map();
+  window.musicAlarmNativeFolderPage=(meta,tracks,last,intent)=>{
+    if(!meta||!meta.id)return;
+    let collected=receivingNativeFolders.get(meta.id);
+    if(!collected){collected=[];receivingNativeFolders.set(meta.id,collected);}
+    for(const track of tracks||[])if(track)collected.push(track);
+    if(last){
+      receivingNativeFolders.delete(meta.id);
+      applyNativeFolder({...meta,tracks:collected},intent,intent!=='restore');
+      folderTrackLimit=80;
+    }
+  };
+  window.musicAlarmNativeFolderChosen=(folder,intent)=>applyNativeFolder(folder,intent,true);
+  window.musicAlarmNativeFolders=(folders)=>{
+    for(const folder of folders||[])applyNativeFolder(folder,'restore',false);
+    renderMain(false);
+  };
+  window.musicAlarmNativePlayback=(data)=>{
+    if(!data)return;
+    if(data.type==='stopped'){isPlaying=false;currentTrack=null;currentQueue=[];nativePosition=0;nativeDuration=0;renderMain(false);return;}
+    if(Array.isArray(data.queue))currentQueue=data.queue;
+    // Native events contain only the current track, not the entire queue.
+    // Preserve the existing UI queue when it matches, and use a single-track
+    // fallback on a restored screen or when a scheduled alarm changes folders.
+    if(data.track){
+      const match=(a,b)=>!!(a&&b&&(a.id&&b.id?a.id===b.id:a.file===b.file));
+      const requested=Number(data.index)||0;
+      if(match(currentQueue[requested],data.track))queueIndex=requested;
+      else{
+        const found=currentQueue.findIndex(t=>match(t,data.track));
+        if(found>=0)queueIndex=found;
+        else{currentQueue=[data.track];queueIndex=0;}
+      }
+    }else queueIndex=Number(data.index)||0;
+    if(currentQueue[queueIndex]){
+      currentTrack=currentQueue[queueIndex];
+      const key=currentTrack.id||currentTrack.file;
+      if(key!==nativeLastTrack){nativeLastTrack=key;rememberRecent(currentTrack);}
+      const fid=currentTrack.folderId;if(fid&&getFolder(fid))state.selectedFolderId=fid;
+    }
+    isPlaying=!!data.playing;
+    nativePosition=(Number(data.position)||0)/1000;
+    nativeDuration=(Number(data.duration)||0)/1000;
+    if(data.type==='error')toast(data.message||'Playback failed');
+    updateMediaMetadata();if(tab==='player')renderMain(false);
+  };
+  window.musicAlarmNativeProgress=(data)=>{if(data){nativePosition=(Number(data.position)||0)/1000;nativeDuration=(Number(data.duration)||0)/1000;updateProgress();}};
+  window.musicAlarmNativePermission=(allowed)=>{if(!allowed)toast('Enable Alarms & reminders in Android Settings to schedule your alarms.');};
+  window.musicAlarmNativeEvents=(events)=>{
+    for(const event of events||[]){
+      const key='native:'+event.id;
+      if(state.history.some(h=>h.id===key))continue;
+      state.history.unshift({id:key,type:event.type,title:event.title,detail:event.detail,alarmId:event.alarmId||null,at:event.at});
+    }
+    state.history.sort((a,b)=>new Date(b.at)-new Date(a.at));
+    state.history=state.history.filter((h,i)=>h.type==='success'||state.history.slice(0,i+1).filter(x=>x.type!=='success').length<=20);
+    if(tab==='history')renderMain(false);
+  };
+  function applyNativeFolder(folder,intent,persist){
+    if(!folder||!folder.id)return;
+    runtimeFolders.set(folder.id,Array.isArray(folder.tracks)?folder.tracks:[]);
+    const current=state.folders.find(f=>f.id===folder.id);
+    if(current)Object.assign(current,{name:folder.name,count:folder.count});
+    else state.folders.push({id:folder.id,name:folder.name,count:folder.count});
+    if(intent!=='restore'){
+      if(intent==='editor'&&editor){editor.folderId=folder.id;renderEditor();}
+      else{state.selectedFolderId=folder.id;tab='player';playerTab='folders';}
+    }
+    if(persist)save();renderMain(false);
+  }
+  setupMediaSession();renderMain();save();
+  if(!window.AndroidAlarm){checkAlarms();setInterval(checkAlarms,1000);}else{
+    window.AndroidAlarm.checkExactAlarmAccess();window.AndroidAlarm.getEvents();
+    setInterval(()=>{window.AndroidAlarm.getProgress();window.AndroidAlarm.getEvents();},1500);
+  }
+  batterySetup();
+})();
+
+</script>
+</body>
+</html>
