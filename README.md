@@ -1,46 +1,31 @@
-<<<<<<< HEAD
-# Music Folder Alarm — playback correction for Realme C30
+# Socrates V9.3 — Android Studio debug build
 
-This patch changes only `MusicPlaybackService.kt` and adds a bundled backup alarm sound (`res/raw/music_alarm_fallback.wav`). All UI screens, saved alarms, history, schedules, and original `/home/justin/AndroidStudioProjects/MusicAlarm` are left untouched.
+This package combines your Socrates V9.3 locked-starting-volume UI (with the new smiling Socrates mascot in the header and Settings) with the previous V9.2 native Android alarm/playback implementation.
 
-## What the photographed History demonstrates
+## Build on your Linux Mint laptop
 
-1. The scheduled alarm was delivered and 1,074 audio document entries were discovered.
-2. The initial selected music file failed to load.
-3. The original source passed `RingtoneManager.getDefaultUri(TYPE_ALARM)` to ExoPlayer. That returned a settings URI that also failed on the phone (`ERROR_CODE_IO_FILE_NOT_FOUND`).
-
-## Changes
-
-- Tries the next track when a track URI is unavailable. Up to 25 failed tracks are skipped per alarm before the backup starts.
-- The alarm's Smart Shuffle starting track is honored by explicitly ordering the playlist.
-- Replaces the system settings alarm URI with a **bundled WAV** through Android `MediaPlayer`, looping with alarm audio usage. This does not rely on any external file, ringtone permission, or provider.
-- History records actual playing instead of claiming success merely after ExoPlayer.prepare()/play().
-- When manual playback starts, the backup alarm tone is stopped.
-
-## Install
-
-In Terminal:
+Open the extracted `Socrates-V9.3-AndroidStudio` project folder in Android Studio, allow Gradle sync, and select **Build > Build Bundle(s) / APK(s) > Build APK(s)**, or run in Terminal:
 
 ```bash
-cd ~/Downloads
-unzip -o MusicFolderAlarm-PlaybackFix.zip
-bash MusicFolderAlarm-PlaybackFix/install.sh
+cd ~/Downloads/Socrates-V9.3-AndroidStudio
+chmod +x gradlew build-apk.sh
+./build-apk.sh
 ```
 
-Open MusicFolderAlarm in Android Studio, choose RMX3581 (not emulator), click Run.
+For the wrapper JAR, this script tries to copy from `~/AndroidStudioProjects/MusicFolderAlarm/gradle/wrapper/gradle-wrapper.jar` or `~/AndroidStudioProjects/MusicAlarm/gradle/wrapper/gradle-wrapper.jar`. If necessary, manually copy your existing wrapper JAR to this project at `gradle/wrapper/gradle-wrapper.jar`.
 
-## Test
+**Output:** `~/Downloads/Socrates-V9.3-debug.apk`, or `app/build/outputs/apk/debug/app-debug.apk` inside the project.
 
-1. Keep current saved alarms; do not uninstall or clear data.
-2. Create a new alarm for two minutes from now, selecting a folder that contains ordinary MP3 files.
-3. Lock your Realme C30 and wait.
-4. Check History: `Music is playing successfully` means selected music worked; `Bundled alarm tone playing` means fallback is now sounding, but selected tracks remain inaccessible.
-5. In the second case, use Player > Folders and manually try a known local MP3. Then share the new History entry and whether manual playback worked.
+## What changed
 
-## Notes
+- V9.3 HTML UI with Socrates icon in the header, Settings/About screen, and browser favicon.
+- Android launcher icon/round icon across all standard screen densities.
+- Android app label **Socrates**; versionCode **12**, versionName **9.3**.
+- Retains application ID `com.musicfolderalarm.app` to preserve compatibility with the prior install and its data. Do not uninstall the old app before upgrading.
+- Carries forward the V9.2 native backend for exact alarms, background playback, foreground service, SAF audio folder indexing, large libraries, and locked starting volume.
 
-This is a source patch, not an APK. Not compiled on user's Android SDK/device in this environment. An unresponsive file provider, missing files, app force-stop, or OEM background restrictions can still prevent normal music playback or scheduled service launch. Do not rely on an unverified alarm as your only alarm.
-=======
-# MusicFolderAlarm
-Personal utility
->>>>>>> origin/main
+## Important
+
+This is a **build-ready Android Studio source archive, not a compiled APK**. It has not been compiled or tested on a physical Android device in the generating environment. Android SDK API 35, Android Gradle Plugin 8.7.3, Gradle 8.9, and JDK 17+ are required. The device must allow alarm permissions and the selected music folder must remain accessible. Android doesn't provide a universal 100% alarm firing guarantee due to device-specific battery/process restrictions; test on your phone for at least one hour idle and following reboot.
+
+Because the version number changed, updating over your previous install is possible if it has the *same application ID and signing key*. A differently signed APK will fail to install over the old one. Debug builds on different machines can use different debug signing keys; avoid uninstalling until you have backed up alarm settings.
